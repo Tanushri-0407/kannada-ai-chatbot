@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vyapari AI | Smart Kannada Store</title>
+    <style>
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7f5;
+            color: #17251d
+        }
+
+        header {
+            background: #123c2b;
+            color: white;
+            padding: 22px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 25px
+        }
+
+        header p {
+            margin: 6px 0 0;
+            color: #c5e3d1
+        }
+
+        nav {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap
+        }
+
+        button {
+            border: 0;
+            border-radius: 9px;
+            padding: 11px 16px;
+            background: #18794e;
+            color: white;
+            font-weight: bold;
+            cursor: pointer
+        }
+
+        button:hover {
+            background: #105c3a
+        }
+
+        nav button {
+            background: #ffffff20
+        }
+
+        nav button.active {
+            background: #fff;
+            color: #123c2b
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 28px auto;
+            padding: 0 20px
+        }
+
+        .page {
+            display: none
+        }
+
+        .page.active {
+            display: block
+        }
+
+        h2 {
+            margin-top: 0
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 15px;
+            margin: 20px 0
+        }
+
+        .stat,
+        .panel,
+        .product {
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow: 0 3px 15px #0000000a
+        }
+
+        .stat span {
+            color: #66756c;
+            font-size: 14px
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 27px;
+            margin-top: 10px;
+            color: #18794e
+        }
+
+        .panel {
+            margin-top: 18px
+        }
+
+        input,
+        select {
+            padding: 12px;
+            border: 1px solid #d5ded8;
+            border-radius: 8px;
+            width: 100%;
+            margin: 7px 0;
+            font-size: 15px
+        }
+
+        .form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #e7ece8
+        }
+
+        .small {
+            color: #66756c;
+            font-size: 13px
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 18px
+        }
+
+        .product .emoji {
+            font-size: 42px
+        }
+
+        .product h3 {
+            margin-bottom: 5px
+        }
+
+        .product button {
+            width: 100%;
+            margin-top: 10px
+        }
+
+        .chat {
+            height: 260px;
+            overflow: auto;
+            background: #f5f8f6;
+            padding: 14px;
+            border-radius: 10px;
+            margin: 15px 0
+        }
+
+        .msg {
+            padding: 10px 13px;
+            border-radius: 10px;
+            margin: 8px 0;
+            max-width: 85%;
+            background: #e0eee5
+        }
+
+        .msg.me {
+            background: #dce9ff;
+            margin-left: auto
+        }
+
+        .row {
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        .row input {
+            flex: 1
+        }
+
+        footer {
+            text-align: center;
+            color: #78857d;
+            padding: 30px
+        }
+
+        @media(max-width:600px) {
+            header {
+                align-items: flex-start
+            }
+
+            table {
+                font-size: 13px
+            }
+
+            th,
+            td {
+                padding: 8px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div>
+            <h1>🌿 Vyapari AI</h1>
+            <p>ನಿಮ್ಮ ಅಂಗಡಿ, ನಿಮ್ಮ ಭಾಷೆಯಲ್ಲಿ | Your shop, in your language</p>
+        </div>
+        <nav>
+            <button class="active" onclick="showPage('dashboard',this)">Dashboard</button>
+            <button onclick="showPage('products',this)">Products</button>
+            <button onclick="showPage('orders',this)">Orders</button>
+            <button onclick="showPage('store',this)">Buyer Store</button>
+            <button onclick="showPage('assistant',this)">Kannada AI</button>
+        </nav>
+    </header>
+    <main>
+        <section id="dashboard" class="page active">
+            <h2>Seller Dashboard</h2>
+            <p class="small">Manage your business from one simple place.</p>
+            <div class="stats">
+                <div class="stat"><span>Total Products</span><strong id="totalProducts">0</strong></div>
+                <div class="stat"><span>Total Orders</span><strong id="totalOrders">0</strong></div>
+                <div class="stat"><span>Total Sales</span><strong id="totalSales">₹0</strong></div>
+                <div class="stat"><span>Low Stock Items</span><strong id="lowStock">0</strong></div>
+            </div>
+            <div class="panel">
+                <h3>Welcome to Vyapari AI 👋</h3>
+                <p>Add products, manage orders and use the Kannada assistant to control your shop.</p><button
+                    onclick="showPage('products')">Manage Products →</button>
+            </div>
+        </section>
+
+        <section id="products" class="page">
+            <h2>Product Management</h2>
+            <div class="panel">
+                <h3>Add a product</h3>
+                <div class="form">
+                    <input id="pname" placeholder="Product name">
+                    <input id="pprice" type="number" placeholder="Price (₹)">
+                    <input id="pstock" type="number" placeholder="Stock quantity">
+                    <input id="pemoji" placeholder="Emoji (e.g. 🧼)">
+                </div>
+                <button onclick="addProduct()">+ Add Product</button>
+            </div>
+            <div class="panel">
+                <h3>Your Products</h3>
+                <div id="productList"></div>
+            </div>
+        </section>
+
+        <section id="orders" class="page">
+            <h2>Order Management</h2>
+            <div class="panel">
+                <div id="orderList">No orders yet. Orders from the buyer store will appear here.</div>
+            </div>
+        </section>
+
+        <section id="store" class="page">
+            <h2>🛍️ Buyer Storefront</h2>
+            <p class="small">Customers can browse products and place demo orders.</p>
+            <input id="search" placeholder="Search products..." oninput="renderStore()">
+            <div class="products" id="storeProducts"></div>
+            <div class="panel">
+                <h3>🛒 Your Cart</h3>
+                <div id="cartList">Your cart is empty.</div><button onclick="checkout()">Place Demo Order</button>
+            </div>
+        </section>
+
+        <section id="assistant" class="page">
+            <h2>🤖 Kannada Chatbot Assistant</h2>
+            <p class="small">Try: "Show products", "Show sales", "Set soap price to 40", "Add 10 soap stock".</p>
+            <div class="panel">
+                <div class="chat" id="chat">
+                    <div class="msg">ನಮಸ್ಕಾರ! Welcome to Vyapari AI. How can I help your shop today?</div>
+                </div>
+                <div class="row"><input id="command" placeholder="Type a command..."><button
+                        onclick="sendCommand()">Send</button></div>
+            </div>
+        </section>
+    </main>
+    <footer>Vyapari AI — A regional-language e-commerce demo platform</footer>
+
+    <script>
+        let products = [
+            { id: 1, name: "Mysore Sandal Soap", price: 45, stock: 30, emoji: "🧼" },
+            { id: 2, name: "Organic Jaggery", price: 80, stock: 20, emoji: "🍯" },
+            { id: 3, name: "Handmade Pottery", price: 250, stock: 8, emoji: "🏺" },
+            { id: 4, name: "Cotton Bag", price: 120, stock: 15, emoji: "👜" },
+            { id: 5, name: "Ragi Flour", price: 60, stock: 25, emoji: "🌾" },
+            { id: 6, name: "Bamboo Basket", price: 180, stock: 5, emoji: "🧺" }
+        ];
+        let orders = [], cart = [];
+        function save() { localStorage.setItem("vyapariProducts", JSON.stringify(products)); localStorage.setItem("vyapariOrders", JSON.stringify(orders)) }
+        function load() { try { products = JSON.parse(localStorage.getItem("vyapariProducts")) || products; orders = JSON.parse(localStorage.getItem("vyapariOrders")) || [] } catch (e) { } }
+        function showPage(id, btn) { document.querySelectorAll(".page").forEach(x => x.classList.remove("active")); document.getElementById(id).classList.add("active"); document.querySelectorAll("nav button").forEach(x => x.classList.remove("active")); if (btn) btn.classList.add("active"); render() }
+        function addProduct() { let name = document.getElementById("pname").value.trim(), price = Number(document.getElementById("pprice").value), stock = Number(document.getElementById("pstock").value), emoji = document.getElementById("pemoji").value || "📦"; if (!name || price <= 0 || stock < 0) { alert("Enter a valid name, price and stock."); return } products.push({ id: Date.now(), name, price, stock, emoji }); save(); document.getElementById("pname").value = ""; document.getElementById("pprice").value = ""; document.getElementById("pstock").value = ""; document.getElementById("pemoji").value = ""; render(); alert("Product added!") }
+        function deleteProduct(id) { products = products.filter(p => p.id !== id); save(); render() }
+        function renderProducts() { document.getElementById("productList").innerHTML = products.map(p => `<div class="row" style="padding:12px 0;border-bottom:1px solid #eee"><span>${p.emoji} ${p.name} — ₹${p.price} — Stock: ${p.stock}</span><button onclick="deleteProduct(${p.id})">Delete</button></div>`).join("") || "No products yet." }
+        function renderStore() { let q = (document.getElementById("search")?.value || "").toLowerCase(); document.getElementById("storeProducts").innerHTML = products.filter(p => p.name.toLowerCase().includes(q)).map(p => `<div class="product"><div class="emoji">${p.emoji}</div><h3>${p.name}</h3><p>₹${p.price}</p><p class="small">Available: ${p.stock}</p><button onclick="addCart(${p.id})" ${p.stock === 0 ? "disabled" : ""}>Add to Cart</button></div>`).join("") || "No products found." }
+        function addCart(id) { let p = products.find(x => x.id === id); if (p && p.stock > 0) { cart.push(id); renderCart() } }
+        function renderCart() { let el = document.getElementById("cartList"); if (!cart.length) { el.innerHTML = "Your cart is empty."; return } el.innerHTML = cart.map(id => { let p = products.find(x => x.id === id); return p ? `${p.emoji} ${p.name} — ₹${p.price}` : "" }).join("<br>") + "<hr><b>Total: ₹" + cart.reduce((s, id) => s + (products.find(p => p.id === id)?.price || 0), 0) + "</b>" }
+        function checkout() { if (!cart.length) { alert("Your cart is empty."); return } let counts = {}; cart.forEach(id => counts[id] = (counts[id] || 0) + 1); for (let id in counts) { let p = products.find(x => x.id === Number(id)); if (!p || p.stock < counts[id]) { alert("Not enough stock for " + (p?.name || "product")); return } } let total = 0; for (let id in counts) { let p = products.find(x => x.id === Number(id)); p.stock -= counts[id]; total += p.price * counts[id] } orders.push({ id: orders.length + 1, total, status: "Placed", date: new Date().toLocaleDateString() }); cart = []; save(); render(); renderCart(); alert("Demo order placed successfully!") }
+        function renderOrders() { let el = document.getElementById("orderList"); if (!orders.length) { el.innerHTML = "No orders yet."; return } el.innerHTML = "<table><tr><th>Order</th><th>Amount</th><th>Status</th><th>Update</th></tr>" + orders.map((o, i) => `<tr><td>#${o.id}</td><td>₹${o.total}</td><td>${o.status}</td><td><select onchange="orders[${i}].status=this.value;save();renderOrders()"><option ${o.status === "Placed" ? "selected" : ""}>Placed</option><option ${o.status === "Packed" ? "selected" : ""}>Packed</option><option ${o.status === "Shipped" ? "selected" : ""}>Shipped</option><option ${o.status === "Delivered" ? "selected" : ""}>Delivered</option></select></td></tr>`).join("") + "</table>" }
+        function render() { document.getElementById("totalProducts").textContent = products.length; document.getElementById("totalOrders").textContent = orders.length; document.getElementById("totalSales").textContent = "₹" + orders.reduce((s, o) => s + o.total, 0); document.getElementById("lowStock").textContent = products.filter(p => p.stock < 10).length; renderProducts(); renderStore(); renderCart(); renderOrders() }
+        function reply(t) { let chat = document.getElementById("chat"); chat.innerHTML += `<div class="msg">${t}</div>`; chat.scrollTop = chat.scrollHeight }
+        function sendCommand() { let input = document.getElementById("command"), c = input.value.trim(); if (!c) return; let chat = document.getElementById("chat"); chat.innerHTML += `<div class="msg me">${c}</div>`; let l = c.toLowerCase(), answer = "ಕ್ಷಮಿಸಿ, I didn't understand. Try: Show products, Show sales, Set soap price to 40, Add 10 soap stock."; if (l.includes("show products")) answer = "ನಿಮ್ಮ ಉತ್ಪನ್ನಗಳು: " + products.map(p => p.name + " (₹" + p.price + ")").join(", "); else if (l.includes("show sales")) answer = "Total demo sales: ₹" + orders.reduce((s, o) => s + o.total, 0); else { let m = l.match(/(?:set|change)\s+(.+?)\s+price\s+to\s+(\d+)/); let s = l.match(/add\s+(\d+)\s+(.+?)\s+stock/); if (m) { let p = products.find(x => x.name.toLowerCase().includes(m[1])); if (p) { p.price = Number(m[2]); answer = p.name + " price updated to ₹" + p.price; save(); render() } else answer = "Product not found." } else if (s) { let p = products.find(x => x.name.toLowerCase().includes(s[2])); if (p) { p.stock += Number(s[1]); answer = "Stock updated. " + p.name + " now has " + p.stock; save(); render() } else answer = "Product not found." } } reply(answer); input.value = "" }
+        document.getElementById("command").addEventListener("keydown", e => { if (e.key === "Enter") sendCommand() });
+        load(); render();
+    </script>
+</body>
+
+</html>
